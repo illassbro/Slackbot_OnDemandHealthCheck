@@ -391,6 +391,14 @@ cat <<EOF> /OnDemandHealthCheck/webtest/${WEB}.properties
 1.1.0.threadwait = 2000
 EOF
 
+## GET CODE
+git clone https://github.com/illassbro/Slackbot_OnDemandHealthCheck
+cp Slackbot_OnDemandHealthCheck/OnDemandHealthCheck.java .
+
+## MODE CODE
+sed -i '/public static String botToken/s/".*"/"'"${API_Token}"'"/' ${CODE}.java 
+sed -i '/public static String channelName/s/".*"/"'"${CHANNEL}"'"/' ${CODE}.java 
+
 
 API_Token='<API Token>'
 CHANNEL='CHANNEL_NAME'
@@ -402,13 +410,6 @@ SELENIUM=':selenium-2.53.1/selenium-java-2.53.1.jar:jna-3.3.0.jar:jna-3.3.0-plat
 SLACK=':slacklet-1.0.4.jar:gson-2.6.2.jar:javax.websocket-api-1.1.jar:javax.websocket-client-api-1.1.jar:httpcore-4.4.jar:httpclient-4.4.jar:httpmime-4.4.jar:tyrus-standalone-client-1.13.jar:threetenbp-1.3.1.jar:commons-codec-1.9.jar:commons-logging-1.2.jar'
 CLASSPATH="${HOMEDIR}${SELENIUM}${HTMLUNIT}${SLACK}"
 echo ${CLASSPATH}
-
-git clone https://github.com/illassbro/Slackbot_OnDemandHealthCheck
-cp Slackbot_OnDemandHealthCheck/OnDemandHealthCheck.java .
-
-## MODE CODE
-sed -i '/public static String botToken/s/".*"/"'"${API_Token}"'"/' ${CODE}.java 
-sed -i '/public static String channelName/s/".*"/"'"${CHANNEL}"'"/' ${CODE}.java 
 
 ## BUILD & TEST CODE
 javac -cp ${CLASSPATH} ${CODE}.java && \
@@ -502,8 +503,7 @@ WebElement(s)=
 =====================================================================
 
 
-  @Test
-  public void testUntitledTestCase() throws Exception {
+=====================================================================
     driver.get("https://www.google.com/");
     driver.findElement(By.linkText("Gmail")).click();
     driver.findElement(By.xpath("(//a[contains(text(),'Sign in')])[2]")).click();
@@ -515,11 +515,10 @@ WebElement(s)=
     driver.findElement(By.name("password")).clear();
     driver.findElement(By.name("password")).sendKeys("thisisndnsww");
     driver.findElement(By.xpath("//div[@id='passwordNext']/div/button/div[2]")).click();
-  }
-
+=====================================================================
 =====================================================================
 WEB=gmail
-cat <<EOF> /tmp/${WEB}.properties
+cat <<EOF> /OnDemandHealthCheck/webtest/${WEB}.properties
 1.0.0 = https://www.google.com/
 2.0.0.linkText.click = Gmail
 3.0.0.xpath.click = (//a[contains(text(),'Sign in')])[2]
@@ -527,31 +526,6 @@ cat <<EOF> /tmp/${WEB}.properties
 1.4.0.id.click = identifierId
 1.4.1.sendkeys = testuser@google.com
 1.4.2.sendkeys = Keys.ENTER
-EOF
-
-
-1.2.0.cssSelector.Wait = button[class*='clickable btn btn-primary']
-1.2.1.threadwait = 1000
-1.3.0.id = input-text-username
-1.3.1.sendkeys = nocstd2l
-1.3.2.threadwait = 1000
-1.4.0.id = input-password-password
-1.4.1.sendkeys = Support2019
-1.4.2.threadwait = 1000
-1.5.0.cssSelector.click = button[class*='clickable btn btn-primary']
-1.6.0.cssSelector.Wait = #drawer-image
-1.6.1.threadwait = 1000
-1.7.0.xpath.click = (.//*[normalize-space(text()) and normalize-space(.)='My Schedule'])[1]/following::i[1]
-1.8.0.cssSelector.Wait = img[alt='GO TO CLASS']
-1.9.0.xpath.click = (.//*[normalize-space(text()) and normalize-space(.)='GO TO CLASS'])[3]/following::span[1]
-2.0.0.cssSelector.Wait = img[src='https://static.k12.com/nextgen/courses/units/images/unit_types/course_materials.png']
-2.0.1.threadwait = 1000
-2.2.0.xpath.click = (.//*[normalize-space(text()) and normalize-space(.)='NOCHST500A_APUSHistory_Sec20_Sem1_19-20'])[1]/following::d2l-navigation-button[1]
-2.2.1.threadwait = 1000
-2.3.0.linkText.click = Log Out
-2.4.0.threadwait = 2000
-2.5.0.linkText.click = Click here to Sign On again
-2.6.0.threadwait = 2000
 EOF
 =====================================================================
 
