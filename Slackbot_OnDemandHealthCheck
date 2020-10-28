@@ -6,14 +6,35 @@ This is a proof of concept for a Slackbot testing appratius for QA/Operations wi
 You can repeat test interactions and monitor apps via automatic testing by later linking them to email alerts or posting to other channels.
 
 
+## MAKE AN ACCOUNT/CHANNEL
+## 
+##
+
+https://slack.com/
+https://yourworkspace.slack.com
+
+
+## MAKE A BOT
+## 
+##
+
+## Go to the APPS in yourworkspace
+https://yourworkspace.slack.com/apps
+
+#NOTE: Copy the API Token
+API_Token='<API Token>'
+
+## ON_SLACK_CHANNEL(Invite your BOT): /invite @<YOUR_BOT_NAME>
+/invite @YOUR_BOT_NAME
+
+
+
 
 [[ DEPLOY CODE: OnDemandHealthCheck (USAGE) ]]
 
 #On Demand HealthCheck: Testing From Slack
-Slack@: #heavens_to_murgatroyd
-https://app.slack.com/client/T6YB875HQ/CLD1EUQ4W
 
-#IS WEB TEST ALIVE?
+#IS WEB TEST BOT ALIVE?
 SEND: ping
 SEND: pong
 
@@ -21,7 +42,7 @@ SEND: pong
 SEND: ...
 
 #RUN WEB TEST?
-SEND: test k12
+SEND: test TESTNAME
 
 #AutoCheck?
 If "idle" for 10+ minutes it will queue up and auto run (all) web tests (one test every 5 min); while, on demand tests can be run at anytime...
@@ -165,98 +186,6 @@ cat <<EOF> /tmp/${WEB}.properties
 EOF
 
 sshpass -p '123456' scp /tmp/${WEB}.properties batman@scripthost1:/OnDemandHealthCheck/webtest
-
-
-
-
-## D2L
-## 
-
-WEB=d2l
-cat <<EOF> /tmp/${WEB}.properties
-1.0.0 = https://mps.yourdomain.com
-1.2.0.cssSelector.Wait = button[class*='clickable btn btn-primary']
-1.2.1.threadwait = 1000
-1.3.0.id = input-text-username
-1.3.1.sendkeys = username
-1.3.2.threadwait = 1000
-1.4.0.id = input-password-password
-1.4.1.sendkeys = password
-1.4.2.threadwait = 1000
-1.5.0.cssSelector.click = button[class*='clickable btn btn-primary']
-1.6.0.cssSelector.Wait = #drawer-image
-1.6.1.threadwait = 1000
-1.7.0.xpath.click = (.//*[normalize-space(text()) and normalize-space(.)='My Schedule'])[1]/following::i[1]
-1.8.0.cssSelector.Wait = img[alt='GO TO CLASS']
-1.9.0.xpath.click = (.//*[normalize-space(text()) and normalize-space(.)='GO TO CLASS'])[3]/following::span[1]
-2.0.0.cssSelector.Wait = img[src='https://static.yourdomain.com/nextgen/courses/units/images/unit_types/course_materials.png']
-2.0.1.threadwait = 1000
-2.2.0.xpath.click = (.//*[normalize-space(text()) and normalize-space(.)='NOCHST500A_APUSHistory_Sec20_Sem1_19-20'])[1]/following::d2l-navigation-button[1]
-2.2.1.threadwait = 1000
-2.3.0.linkText.click = Log Out
-2.4.0.threadwait = 2000
-2.5.0.linkText.click = Click here to Sign On again
-2.6.0.threadwait = 2000
-EOF
-
-sshpass -p '123456' scp /tmp/${WEB}.properties ec2-user@scripthost1:/OnDemandHealthCheck/webtest
-
-
-## OLS
-##
-
-WEB=ols
-cat <<EOF> /tmp/${WEB}.properties
-1.0.0 = https://login-learn.yourdomain.com/#login
-1.1.0.cssSelector.wait = button[class*='clickable btn btn-primary'] 
-1.1.1.threadwait = 1000
-1.3.0.id = input-text-username
-1.3.1.sendkeys = username
-1.4.0.id = input-password-password
-1.4.1.sendkeys = password
-1.4.2.threadwait = 1000
-1.5.0.cssSelector.click = button[class*='clickable btn btn-primary']
-1.6.0.xpath.wait = (.//*[normalize-space(text()) and normalize-space(.)='Lesson'])[1]/following::span[1] 
-1.6.1.threadwait = 1000
-1.7.0.xpath.click = (.//*[normalize-space(text()) and normalize-space(.)='Lesson'])[1]/following::span[1]
-1.7.1.threadwait = 5000
-1.8.0.back = 
-1.8.1.threadwait = 1000
-2.0.0.id.click = logoutLink
-2.0.1.threadwait = 2000
-EOF
-
-sshpass -p '123456' scp /tmp/${WEB}.properties ec2-user@scripthost1:/OnDemandHealthCheck/webtest
-
-
-## PEAK
-##
-
-WEB=peak
-cat <<EOF> /tmp/${WEB}.properties
-1.0.0 = http://globalhome.yourdomain.com
-1.1.0.cssSelector.wait = button[class*='clickable btn btn-primary'] 
-1.2.0.threadwait = 1000
-1.3.0.id = input-text-username
-1.3.1.sendkeys = nocstudentpeak
-1.4.0.id = input-password-password
-1.4.1.sendkeys = Password1
-1.5.0.threadwait = 1000
-1.6.0.cssSelector.click =  button[class*='clickable btn btn-primary']
-1.7.0.cssSelector.wait =  div.action-hover-line.background-color-electives-border
-1.8.0.threadwait = 2000
-1.9.0.id.click = user-name
-2.0.0.xpath.wait = (.//*[normalize-space(text()) and normalize-space(.)='Guided Help'])[1]/following::span[1]
-2.1.0.threadwait = 1000
-2.2.0.xpath.click = (.//*[normalize-space(text()) and normalize-space(.)='Guided Help'])[1]/following::span[1]
-2.3.0.threadwait = 2000
-EOF
-
-sshpass -p '123456' scp /tmp/${WEB}.properties ec2-user@scripthost1:/OnDemandHealthCheck/webtest
-
-
-
-
 
 
 
