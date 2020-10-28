@@ -66,8 +66,8 @@ public class OnDemandHealthCheck {
     //SERVICE_VARS
     public static SlackletService slackService;
     //BOT_VARS
-    public static String botToken = "xoxb-236382243602-691794813056-0mX1bLIZiglqS0qZ8lOj0Lvp";
-    public static String channelName = "heavens_to_murgatroyd";
+    public static String botToken = "xoxb-1471763327745-1465348538260-ZY4Ez6z3TtljDDlQP302QR2s";
+    public static String channelName = "slack-bots";
     public static long BORED; //KEEP_ALIVE_GLOBAL
     public static long ALIVE; //CONNECTION_TIMEOUT
     public static boolean SLEEP = false; //SLEEP_STATE
@@ -735,7 +735,7 @@ class WebTest {
     public static void sendImageToSlack() {
         //SEND_SCREEN_SHOTS
         System.out.println("Sending Images to Slack...");
-        command("slack-cli -t "+OnDemandHealthCheck.botToken+" -d "+OnDemandHealthCheck.channelName+" -f screenshot.gif");
+        command("curl -F file=@screenshot.gif -F 'initial_comment=webtest' -F channels="+OnDemandHealthCheck.channelName+" -H 'Authorization: Bearer "+OnDemandHealthCheck.botToken+"' https://slack.com/api/files.upload");
     }
 
     //[ACTION] WRITE_TO_FILE
