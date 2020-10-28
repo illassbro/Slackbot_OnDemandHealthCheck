@@ -101,6 +101,7 @@ API_Token='<API Token>'
 sshpass -p '123456' ssh ec2-user@scripthost1
 
 sudo mkdir -p /OnDemandHealthCheck/webtest
+sudo chown -R yourusername:yourgroupname .
 cd  /OnDemandHealthCheck/
 
 ### Install Java SDK
@@ -169,7 +170,6 @@ display screenshot.png
 http://chromedriver.chromium.org/downloads
 
 sudo mkdir -p /OnDemandHealthCheck
-sudo chown -R yourusername:yourgroupname .
 cd /OnDemandHealthCheck
 
 VERSION=$(google-chrome -version | sed 's/\./#/3;s/#.*//;s/ /#/g;s/.*#//')
@@ -243,24 +243,25 @@ find /OnDemandHealthCheck
 
 cd /OnDemandHealthCheck
 
-#wget --no-check-certificate 'https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-windows.zip' -O phantomjs-2.1.1-windows.zip 
 wget --no-check-certificate 'https://selenium-release.storage.googleapis.com/2.53/selenium-java-2.53.1.zip'
-#wget --no-check-certificate 'https://repo1.maven.org/maven2/org/seleniumhq/selenium/selenium-htmlunit-driver/2.52.0/selenium-htmlunit-driver-2.52.0.jar'
+wget --no-check-certificate 'https://repo1.maven.org/maven2/org/seleniumhq/selenium/selenium-htmlunit-driver/2.52.0/selenium-htmlunit-driver-2.52.0.jar'
 #wget --no-check-certificate 'https://central.maven.org/maven2/com/codeborne/phantomjsdriver/1.2.1/phantomjsdriver-1.2.1.jar'
 wget --no-check-certificate 'https://repo1.maven.org/maven2/com/google/guava/guava/19.0/guava-19.0.jar'
 wget --no-check-certificate 'https://repo1.maven.org/maven2/com/google/code/gson/gson/2.3.1/gson-2.3.1.jar'
-wget --no-check-certificate 'https://repo1.maven.org/maven2/org/apache/commons/commons-exec/1.3/commons-exec-1.3.jar'
+wget --no-check-certificate 'https://repo1.maven.org/maven2/org/batman/commons/commons-exec/1.3/commons-exec-1.3.jar'
 wget --no-check-certificate 'https://repo1.maven.org/maven2/commons-io/commons-io/2.4/commons-io-2.4.jar'
 wget --no-check-certificate 'https://repo1.maven.org/maven2/commons-logging/commons-logging/1.2/commons-logging-1.2.jar'
-wget --no-check-certificate 'https://repo1.maven.org/maven2/org/apache/httpcomponents/httpclient/4.5/httpclient-4.5.jar'
-wget --no-check-certificate 'https://repo1.maven.org/maven2/org/apache/httpcomponents/httpcore/4.4.1/httpcore-4.4.1.jar'
+wget --no-check-certificate 'https://repo1.maven.org/maven2/org/batman/httpcomponents/httpclient/4.5/httpclient-4.5.jar'
+wget --no-check-certificate 'https://repo1.maven.org/maven2/org/batman/httpcomponents/httpcore/4.4.1/httpcore-4.4.1.jar'
 wget --no-check-certificate 'https://repo1.maven.org/maven2/net/java/dev/jna/jna/3.3.0/jna-3.3.0.jar'
 wget --no-check-certificate 'https://repo1.maven.org/maven2/net/java/dev/jna/jna/3.3.0/jna-3.3.0-platform.jar'
 wget --no-check-certificate 'https://repository.springsource.com/ivy/bundles/external/net.sourceforge.cglib/com.springsource.net.sf.cglib/2.2.0/com.springsource.net.sf.cglib-2.2.0.jar'
 find /OnDemandHealthCheck
+
 	
 ## UNZIP THIS
 jar -xvf selenium-java-2.53.1.zip 
+#cp selenium-2.53.1/libs/* .
 find /OnDemandHealthCheck
 
 
@@ -270,7 +271,6 @@ find /OnDemandHealthCheck
 
 find /OnDemandHealthCheck
 find . -maxdepth 1 -type f | sed 's/^..//' | xargs | sed 's/ /:/g;s/^./:&/;s/.*/SELENIUM='"'selenium-2.53.1\/selenium-java-2.53.1.jar:&'"'/'
-
 
 
 
@@ -377,6 +377,7 @@ journalctl -u OnDemandHealthCheck.service --no-pager -f #CTRL-C
 sshpass -p '123456' ssh ec2-user@scripthost1
 sudo -s 
 
+sudo mkdir -p /OnDemandHealthCheck/webtest
 cd /OnDemandHealthCheck
 
 WEB=cnn
@@ -391,23 +392,25 @@ cat <<EOF> /OnDemandHealthCheck/webtest/${WEB}.properties
 1.1.0.threadwait = 2000
 EOF
 
+
 ## GET CODE
 git clone https://github.com/illassbro/Slackbot_OnDemandHealthCheck
 cp Slackbot_OnDemandHealthCheck/OnDemandHealthCheck.java .
 
 ## MODE CODE
+API_Token='<API Token>'
+CHANNEL='CHANNEL_NAME'
+CODE=OnDemandHealthCheck
 sed -i '/public static String botToken/s/".*"/"'"${API_Token}"'"/' ${CODE}.java 
 sed -i '/public static String channelName/s/".*"/"'"${CHANNEL}"'"/' ${CODE}.java 
 
 
-API_Token='<API Token>'
-CHANNEL='CHANNEL_NAME'
-
 CODE=OnDemandHealthCheck
 CLASSPATH=
 HOMEDIR='.'
-SELENIUM=':selenium-2.53.1/selenium-java-2.53.1.jar:jna-3.3.0.jar:jna-3.3.0-platform.jar:guava-19.0.jar:gson-2.3.1.jar:httpclient-4.5.jar:httpcore-4.4.1.jar:commons-io-2.4.jar:commons-exec-1.3.jar:commons-logging-1.2.jar:com.springsource.net.sf.cglib-2.2.0.jar'
-SLACK=':slacklet-1.0.4.jar:gson-2.6.2.jar:javax.websocket-api-1.1.jar:javax.websocket-client-api-1.1.jar:httpcore-4.4.jar:httpclient-4.4.jar:httpmime-4.4.jar:tyrus-standalone-client-1.13.jar:threetenbp-1.3.1.jar:commons-codec-1.9.jar:commons-logging-1.2.jar'
+#CLASSPATH='.:selenium-2.53.1/selenium-java-2.53.1.jar:phantomjsdriver-1.2.1.jar:jna-3.3.0.jar:jna-3.3.0-platform.jar:guava-19.0.jar:gson-2.3.1.jar:httpclient-4.5.jar:httpcore-4.4.1.jar:commons-io-2.4.jar:commons-exec-1.3.jar:commons-logging-1.2.jar:com.springsource.net.sf.cglib-2.2.0.jar'
+SELENIUM='.:selenium-2.53.1/selenium-java-2.53.1.jar::gson-2.3.1.jar:hamcrest-library-1.3.jar:bsh-2.0b4.jar:hamcrest-core-1.3.jar:javax.websocket-client-api-1.1.jar:tyrus-standalone-client-1.13.jar:commons-exec-1.3.jar:commons-io-2.4.jar:phantomjsdriver-1.2.1.jar:commons-codec-1.10.jar:guava-19.0.jar:selenium-java-2.53.1.zip:httpcore-4.4.jar:threetenbp-1.3.1.jar:javax.websocket-api-1.1.jar:slacklet-1.0.4.jar:commons-codec-1.9.jar:httpmime-4.4.jar:gson-2.6.2.jar:jcommander-1.48.jar:netty-3.5.7.Final.jar:apache-mime4j-0.6.jar:testng-6.9.9.jar:cglib-nodep-2.1_3.jar:httpcore-4.4.3.jar:httpmime-4.5.jar:jna-4.1.0.jar:httpclient-4.5.1.jar:commons-logging-1.2.jar:junit-4.12.jar:OnDemandHealthCheck.java:jna-platform-4.1.0.jar:httpclient-4.4.jar'
+SLACK='.:slacklet-1.0.4.jar:gson-2.6.2.jar:javax.websocket-api-1.1.jar:javax.websocket-client-api-1.1.jar:httpcore-4.4.jar:httpclient-4.4.jar:httpmime-4.4.jar:tyrus-standalone-client-1.13.jar:threetenbp-1.3.1.jar:commons-codec-1.9.jar:commons-logging-1.2.jar'
 CLASSPATH="${HOMEDIR}${SELENIUM}${HTMLUNIT}${SLACK}"
 echo ${CLASSPATH}
 
@@ -494,12 +497,12 @@ WebElement(s)=
 	className
 	tagName
 	linkText
-           xpath
-           cssSelector
+        xpath
+        cssSelector
 
 *Special* Command =
-          Dotted.Sequence.threadwait =  <Milliseconds>
-          NOTE: Threadwait Also takes a "screenshot"
+        Dotted.Sequence.threadwait =  <Milliseconds>
+        NOTE: Threadwait Also takes a "screenshot"
 =====================================================================
 
 
