@@ -125,19 +125,6 @@ https://www.katalon.com/resources-center/blog/katalon-automation-recorder/
 #WebElement ["xpath" is normaly the most precise (but it is also a problem for dynamic WebElement)]
 (.//*[normalize-space(text()) and normalize-space(.)='My Schedule'])[1]/following::i[1]
 
-  @Test
-  public void testUntitledTestCase() throws Exception {
-    driver.get("https://mps.yourdomain.com/#login");
-    driver.findElement(By.id("c163")).click();  <=== [ The WebElement's "Name" is with "By." (By.id = id)]
-    driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Close'])[1]/following::div[2]")).click();
-    driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='My Schedule'])[1]/following::i[1]")).click();
-    driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='K12 Demo VA'])[1]/following::i[1]")).click();
-    driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Classes'])[1]/following::i[1]")).click();   <=== [GET THE ELEMENT IN SIDE THE (""): ]
-    driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='My Schedule'])[1]/following::i[1]")).click();
-    driver.findElement(By.id("user-name")).click();
-    driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Log Out'])[1]/following::i[1]")).click();
-    driver.close();
-  }
 ============================================================================================================================================================================================================
 
 
