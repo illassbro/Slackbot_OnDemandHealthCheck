@@ -125,6 +125,21 @@ https://www.katalon.com/resources-center/blog/katalon-automation-recorder/
 #WebElement ["xpath" is normaly the most precise (but it is also a problem for dynamic WebElement)]
 (.//*[normalize-space(text()) and normalize-space(.)='My Schedule'])[1]/following::i[1]
 
+  @Test
+  public void testUntitledTestCase() throws Exception {
+    driver.get("https://www.amazon.com/");
+    driver.findElement(By.id("twotabsearchtextbox")).clear();
+    driver.findElement(By.id("twotabsearchtextbox")).sendKeys("lenovo");
+    driver.findElement(By.xpath("//div[@id='issDiv9']/span[2]")).click();
+    driver.findElement(By.xpath("//div[@id='search']/div/div[2]/div/span[3]/div[2]/div[4]/div/span/div/div/div[2]/div[2]/div/div/div/div/div/h2/a/span")).click();
+    driver.findElement(By.id("add-to-cart-button")).click();
+    driver.findElement(By.xpath("(//input[@type='submit'])[3]")).click();
+    driver.findElement(By.xpath("(//input[@type='submit'])[5]")).click();
+    driver.findElement(By.id("ap_email")).clear();
+    driver.findElement(By.id("ap_email")).sendKeys("noname@example.com");
+    driver.findElement(By.name("signIn")).submit();
+  }
+
 ============================================================================================================================================================================================================
 
 
