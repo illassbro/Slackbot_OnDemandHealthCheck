@@ -1,6 +1,6 @@
 [[ SLACK BOT: OnDemand web test automation ]]
 
-If you can do it on you own; then, you likely save some oney on Synthetic web test automation like New Relic Synthetics. 
+If you can do it on you own; then, you can likely save some money on Synthetic web test automation like New Relic Synthetics. 
 
 This is a proof of concept for a Slackbot testing appratius for QA/Operations with a simple DSL(no coding required). You upload tests and get results (Text/Pictures) from web apps on slack. 
 You can repeat test interactions and monitor apps via automatic testing by later linking them to email alerts or posting to other channels.
